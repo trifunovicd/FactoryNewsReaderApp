@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Factory News</string>
+    <string name="news_title">News title</string>
+    <string name="loading">Učitavanje vijesti...</string>
+</resources>
