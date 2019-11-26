@@ -1,8 +1,13 @@
 package com.example.factorynewsreaderapp.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,6 +41,8 @@ public class ViewPagerItemFragment extends Fragment implements FetchNewsContent.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
         if(getArguments() != null){
             newsItem = getArguments().getParcelable("newsItem");
         }
@@ -69,5 +76,22 @@ public class ViewPagerItemFragment extends Fragment implements FetchNewsContent.
     @Override
     public void processFinish(String output) {
         newsContent.setText(Html.fromHtml(output));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.open_in_browser_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.open_in_browser){
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(newsItem.getNewsUrl()));
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
